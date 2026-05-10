@@ -1,20 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>DevConnect</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>DevConnect Pro</title>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-  <h1>DevConnect 🌐</h1>
+  <!-- Header -->
+  <header>
+    <h1>DevConnect Pro 🚀</h1>
+    <p class="subtitle">
+      Search developers, explore repositories, and save profiles.
+    </p>
+  </header>
 
-  <input type="text" id="searchInput" placeholder="Search GitHub username...">
-  <button onclick="searchUser()">Search</button>
+  <!-- Search Section -->
+  <section class="search-section">
 
-  <div id="profile"></div>
-  <div id="posts"></div>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Enter GitHub username..."
+    />
+
+    <button onclick="searchUser()">
+      Search
+    </button>
+
+  </section>
+
+  <!-- Profile -->
+  <section id="profile"></section>
+
+  <!-- Repository Section -->
+  <section class="repo-section">
+
+    <h2>Top Repositories 📦</h2>
+
+    <div id="repos"></div>
+
+  </section>
+
+  <!-- Saved Developers -->
+  <section class="saved-section">
+
+    <h2>Saved Developers ⭐</h2>
+
+    <div id="savedUsers"></div>
+
+  </section>
 
   <script src="app.js"></script>
+
 </body>
+
 </html>
