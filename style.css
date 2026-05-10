@@ -1,22 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial;
   background: #0f172a;
   color: white;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+/* Header */
+
+header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
-input, button {
-  padding: 10px;
-  margin: 10px;
+header h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
 }
 
-#profile, #posts {
-  margin-top: 20px;
+.subtitle {
+  color: #94a3b8;
 }
+
+/* Search */
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.search-section input {
+  width: 300px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.search-section button {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.search-section button:hover {
+  transform: scale(1.05);
+}
+
+/* Profile Card */
 
 .card {
   background: #1e293b;
-  padding: 15px;
-  margin: 10px;
+  padding: 25px;
+  border-radius: 18px;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 130px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #3b82f6;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+.bio {
+  color: #cbd5e1;
+  margin-bottom: 15px;
+}
+
+.stats {
+  margin-top: 10px;
+  color: #94a3b8;
+}
+
+.save-btn {
+  margin-top: 20px;
+  padding: 12px 18px;
+  border: none;
   border-radius: 10px;
+  background: #10b981;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Repo Section */
+
+.repo-section,
+.saved-section {
+  max-width: 900px;
+  margin: auto;
+}
+
+.repo-section h2,
+.saved-section h2 {
+  margin-bottom: 20px;
+}
+
+.repo-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.repo-card:hover {
+  transform: scale(1.02);
+}
+
+.repo-card a {
+  color: #60a5fa;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.repo-card p {
+  margin-top: 10px;
+  color: #cbd5e1;
+}
+
+.repo-stats {
+  margin-top: 12px;
+  color: #94a3b8;
+}
+
+/* Saved Users */
+
+.saved-user {
+  background: #334155;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .search-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-section input {
+    width: 100%;
+  }
+
+  body {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 32px;
+  }
 }
