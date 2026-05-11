@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>DevConnect Pro</title>
 
@@ -12,21 +12,21 @@
 
 <body>
 
-  <!-- Header -->
   <header>
     <h1>DevConnect Pro 🚀</h1>
+
     <p class="subtitle">
-      Search developers, explore repositories, and save profiles.
+      Explore developers, repositories, and technologies.
     </p>
   </header>
 
-  <!-- Search Section -->
+  <!-- Search -->
   <section class="search-section">
 
     <input
       type="text"
       id="searchInput"
-      placeholder="Enter GitHub username..."
+      placeholder="Search GitHub username..."
     />
 
     <button onclick="searchUser()">
@@ -38,7 +38,19 @@
   <!-- Profile -->
   <section id="profile"></section>
 
-  <!-- Repository Section -->
+  <!-- Repo Search -->
+  <section class="repo-search">
+
+    <input
+      type="text"
+      id="repoSearch"
+      placeholder="Filter repositories..."
+      onkeyup="filterRepos()"
+    />
+
+  </section>
+
+  <!-- Repositories -->
   <section class="repo-section">
 
     <h2>Top Repositories 📦</h2>
@@ -47,7 +59,7 @@
 
   </section>
 
-  <!-- Saved Developers -->
+  <!-- Saved Users -->
   <section class="saved-section">
 
     <h2>Saved Developers ⭐</h2>
