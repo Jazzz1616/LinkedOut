@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #0f172a;
+  background: #020617;
   color: white;
   font-family: Arial, sans-serif;
   min-height: 100vh;
@@ -20,8 +20,9 @@ header {
 }
 
 header h1 {
-  font-size: 42px;
+  font-size: 50px;
   margin-bottom: 10px;
+  color: #60a5fa;
 }
 
 .subtitle {
@@ -30,57 +31,58 @@ header h1 {
 
 /* Search */
 
-.search-section {
+.search-section,
+.repo-search {
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
   gap: 10px;
-  margin-bottom: 40px;
 }
 
-.search-section input {
-  width: 300px;
+input {
+  width: 320px;
   padding: 14px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  background: #1e293b;
+  color: white;
   font-size: 16px;
 }
 
-.search-section button {
+button {
   padding: 14px 20px;
   border: none;
-  border-radius: 10px;
-  background: #3b82f6;
+  border-radius: 12px;
+  background: #2563eb;
   color: white;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.search-section button:hover {
+button:hover {
   transform: scale(1.05);
 }
 
-/* Profile Card */
+/* Profile */
 
 .card {
-  background: #1e293b;
-  padding: 25px;
-  border-radius: 18px;
-  max-width: 700px;
-  margin: 0 auto 40px;
+  background: #0f172a;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 750px;
+  margin: auto;
   text-align: center;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
+  border: 1px solid #1e40af;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+  margin-bottom: 40px;
 }
 
 .card img {
   width: 130px;
   border-radius: 50%;
+  border: 4px solid #3b82f6;
   margin-bottom: 15px;
-  border: 3px solid #3b82f6;
 }
 
 .card h2 {
@@ -93,22 +95,26 @@ header h1 {
 }
 
 .stats {
-  margin-top: 10px;
   color: #94a3b8;
+  margin-top: 15px;
 }
 
-.save-btn {
+/* Skills */
+
+.skills {
   margin-top: 20px;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #10b981;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-/* Repo Section */
+.skill {
+  display: inline-block;
+  background: #1d4ed8;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* Repositories */
 
 .repo-section,
 .saved-section {
@@ -122,21 +128,22 @@ header h1 {
 }
 
 .repo-card {
-  background: #1e293b;
+  background: #0f172a;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 16px;
   margin-bottom: 20px;
+  border: 1px solid #1e293b;
   transition: 0.3s;
 }
 
 .repo-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px);
 }
 
 .repo-card a {
   color: #60a5fa;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
 
@@ -153,30 +160,59 @@ header h1 {
 /* Saved Users */
 
 .saved-user {
-  background: #334155;
+  background: #1e293b;
   padding: 15px;
   margin-bottom: 10px;
-  border-radius: 10px;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-btn {
+  background: red;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* Loading Spinner */
+
+.loader {
+  border: 6px solid #1e293b;
+  border-top: 6px solid #3b82f6;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 40px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive */
 
 @media (max-width: 768px) {
 
-  .search-section {
+  .search-section,
+  .repo-search {
     flex-direction: column;
     align-items: center;
   }
 
-  .search-section input {
+  input {
     width: 100%;
+  }
+
+  header h1 {
+    font-size: 38px;
   }
 
   body {
     padding: 15px;
-  }
-
-  header h1 {
-    font-size: 32px;
   }
 }
