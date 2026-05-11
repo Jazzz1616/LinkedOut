@@ -2,13 +2,29 @@ const profileDiv = document.getElementById("profile");
 const reposDiv = document.getElementById("repos");
 const savedUsersDiv = document.getElementById("savedUsers");
 
+let currentRepos = [];
+
 loadSavedUsers();
 
-/* Search GitHub User */
+/* ENTER KEY SUPPORT */
+
+document
+  .getElementById("searchInput")
+  .addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+      searchUser();
+    }
+});
+
+/* SEARCH USER */
 
 async function searchUser() {
 
-  const username = document.getElementById("searchInput").value.trim();
+  const username =
+    document.getElementById("searchInput")
+    .value
+    .trim();
 
   if (!username) {
     alert("Please enter a GitHub username");
@@ -16,16 +32,14 @@ async function searchUser() {
   }
 
   profileDiv.innerHTML = `
-    <p style="text-align:center;">Loading profile...</p>
+    <div class="loader"></div>
   `;
 
-  reposDiv.innerHTML = `
-    <p style="text-align:center;">Loading repositories...</p>
-  `;
+  reposDiv.innerHTML = "";
 
   try {
 
-    /* Fetch User */
+    /* FETCH USER */
 
     const userRes = await fetch(
       `https://api.github.com/users/${username}`
@@ -37,7 +51,7 @@ async function searchUser() {
 
     const user = await userRes.json();
 
-    /* Fetch Repositories */
+    /* FETCH REPOSITORIES */
 
     const repoRes = await fetch(
       `https://api.github.com/users/${username}/repos`
@@ -45,7 +59,9 @@ async function searchUser() {
 
     const repos = await repoRes.json();
 
-    displayProfile(user);
+    currentRepos = repos;
+
+    displayProfile(user, repos);
 
     displayRepos(repos);
 
@@ -56,14 +72,22 @@ async function searchUser() {
         ❌ ${error.message}
       </p>
     `;
-
-    reposDiv.innerHTML = "";
   }
 }
 
-/* Display Profile */
+/* DISPLAY PROFILE */
 
-function displayProfile(user) {
+function displayProfile(user, repos) {
+
+  /* Collect languages */
+
+  const languages = [
+    ...new Set(
+      repos
+      .map(repo => repo.language)
+      .filter(Boolean)
+    )
+  ];
 
   profileDiv.innerHTML = `
   
@@ -78,18 +102,31 @@ function displayProfile(user) {
       <p class="bio">
         ${
           user.bio ||
-          "Passionate developer exploring JavaScript and APIs 🚀"
+          "Passionate JavaScript developer 🚀"
         }
       </p>
 
       <div class="stats">
+
         👥 Followers: ${user.followers}
         |
         📦 Repositories: ${user.public_repos}
+        |
+        📍 ${user.location || "Unknown"}
+
+      </div>
+
+      <div class="skills">
+
+        ${languages.map(lang => `
+          <span class="skill">
+            ${lang}
+          </span>
+        `).join('')}
+
       </div>
 
       <button
-        class="save-btn"
         onclick="saveUser('${user.login}')"
       >
         ⭐ Save Developer
@@ -99,7 +136,7 @@ function displayProfile(user) {
   `;
 }
 
-/* Display Repositories */
+/* DISPLAY REPOSITORIES */
 
 function displayRepos(repos) {
 
@@ -113,13 +150,21 @@ function displayRepos(repos) {
   }
 
   reposDiv.innerHTML = repos
-    .sort((a, b) => b.stargazers_count - a.stargazers_count)
-    .slice(0, 6)
+
+    .sort((a, b) =>
+      b.stargazers_count - a.stargazers_count
+    )
+
+    .slice(0, 8)
+
     .map(repo => `
     
       <div class="repo-card">
 
-        <a href="${repo.html_url}" target="_blank">
+        <a
+          href="${repo.html_url}"
+          target="_blank"
+        >
           🚀 ${repo.name}
         </a>
 
@@ -131,24 +176,45 @@ function displayRepos(repos) {
         </p>
 
         <div class="repo-stats">
+
           ⭐ ${repo.stargazers_count}
           |
           🍴 ${repo.forks_count}
           |
           🛠 ${repo.language || "Unknown"}
+
         </div>
 
       </div>
     `)
+
     .join('');
 }
 
-/* Save Developer */
+/* FILTER REPOSITORIES */
+
+function filterRepos() {
+
+  const search =
+    document.getElementById("repoSearch")
+    .value
+    .toLowerCase();
+
+  const filtered = currentRepos.filter(repo =>
+    repo.name.toLowerCase().includes(search)
+  );
+
+  displayRepos(filtered);
+}
+
+/* SAVE USER */
 
 function saveUser(username) {
 
   let savedUsers =
-    JSON.parse(localStorage.getItem("savedUsers")) || [];
+    JSON.parse(
+      localStorage.getItem("savedUsers")
+    ) || [];
 
   if (!savedUsers.includes(username)) {
 
@@ -169,12 +235,34 @@ function saveUser(username) {
   }
 }
 
-/* Load Saved Developers */
+/* REMOVE USER */
+
+function removeUser(username) {
+
+  let savedUsers =
+    JSON.parse(
+      localStorage.getItem("savedUsers")
+    ) || [];
+
+  savedUsers =
+    savedUsers.filter(user => user !== username);
+
+  localStorage.setItem(
+    "savedUsers",
+    JSON.stringify(savedUsers)
+  );
+
+  loadSavedUsers();
+}
+
+/* LOAD SAVED USERS */
 
 function loadSavedUsers() {
 
   let savedUsers =
-    JSON.parse(localStorage.getItem("savedUsers")) || [];
+    JSON.parse(
+      localStorage.getItem("savedUsers")
+    ) || [];
 
   if (savedUsers.length === 0) {
 
@@ -186,10 +274,24 @@ function loadSavedUsers() {
   }
 
   savedUsersDiv.innerHTML = savedUsers
+
     .map(user => `
+    
       <div class="saved-user">
-        ⭐ ${user}
+
+        <span>
+          ⭐ ${user}
+        </span>
+
+        <button
+          class="remove-btn"
+          onclick="removeUser('${user}')"
+        >
+          Remove
+        </button>
+
       </div>
     `)
+
     .join('');
 }
