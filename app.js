@@ -1,12 +1,13 @@
 const profileDiv = document.getElementById("profile");
 const reposDiv = document.getElementById("repos");
 const savedUsersDiv = document.getElementById("savedUsers");
+const toast = document.getElementById("toast");
 
 let currentRepos = [];
 
 loadSavedUsers();
 
-/* ENTER KEY SUPPORT */
+/* ENTER KEY */
 
 document
   .getElementById("searchInput")
@@ -27,7 +28,7 @@ async function searchUser() {
     .trim();
 
   if (!username) {
-    alert("Please enter a GitHub username");
+    showToast("Please enter a username");
     return;
   }
 
@@ -51,7 +52,7 @@ async function searchUser() {
 
     const user = await userRes.json();
 
-    /* FETCH REPOSITORIES */
+    /* FETCH REPOS */
 
     const repoRes = await fetch(
       `https://api.github.com/users/${username}/repos`
@@ -78,8 +79,6 @@ async function searchUser() {
 /* DISPLAY PROFILE */
 
 function displayProfile(user, repos) {
-
-  /* Collect languages */
 
   const languages = [
     ...new Set(
@@ -108,11 +107,21 @@ function displayProfile(user, repos) {
 
       <div class="stats">
 
-        👥 Followers: ${user.followers}
-        |
-        📦 Repositories: ${user.public_repos}
-        |
-        📍 ${user.location || "Unknown"}
+        👥 Followers: ${user.followers}<br>
+
+        ➕ Following: ${user.following}<br>
+
+        📦 Repositories: ${user.public_repos}<br>
+
+        🏢 Company:
+        ${user.company || "Not specified"}<br>
+
+        📍 Location:
+        ${user.location || "Unknown"}<br>
+
+        📅 Joined:
+        ${new Date(user.created_at)
+          .toLocaleDateString()}
 
       </div>
 
@@ -126,17 +135,35 @@ function displayProfile(user, repos) {
 
       </div>
 
-      <button
-        onclick="saveUser('${user.login}')"
-      >
-        ⭐ Save Developer
-      </button>
+      <div class="profile-buttons">
+
+        <button
+          onclick="saveUser('${user.login}')"
+        >
+          ⭐ Save
+        </button>
+
+        <button
+          onclick="copyUsername('${user.login}')"
+        >
+          📋 Copy Username
+        </button>
+
+        <a
+          href="${user.html_url}"
+          target="_blank"
+          class="profile-link"
+        >
+          🔗 GitHub Profile
+        </a>
+
+      </div>
 
     </div>
   `;
 }
 
-/* DISPLAY REPOSITORIES */
+/* DISPLAY REPOS */
 
 function displayRepos(repos) {
 
@@ -180,7 +207,11 @@ function displayRepos(repos) {
           ⭐ ${repo.stargazers_count}
           |
           🍴 ${repo.forks_count}
-          |
+
+        </div>
+
+        <div class="language-tag">
+
           🛠 ${repo.language || "Unknown"}
 
         </div>
@@ -191,7 +222,7 @@ function displayRepos(repos) {
     .join('');
 }
 
-/* FILTER REPOSITORIES */
+/* FILTER REPOS */
 
 function filterRepos() {
 
@@ -227,11 +258,11 @@ function saveUser(username) {
 
     loadSavedUsers();
 
-    alert("Developer saved!");
+    showToast("Developer saved!");
 
   } else {
 
-    alert("Developer already saved!");
+    showToast("Developer already saved!");
   }
 }
 
@@ -253,6 +284,8 @@ function removeUser(username) {
   );
 
   loadSavedUsers();
+
+  showToast("Developer removed");
 }
 
 /* LOAD SAVED USERS */
@@ -294,4 +327,26 @@ function loadSavedUsers() {
     `)
 
     .join('');
+}
+
+/* COPY USERNAME */
+
+function copyUsername(username) {
+
+  navigator.clipboard.writeText(username);
+
+  showToast("Username copied!");
+}
+
+/* TOAST */
+
+function showToast(message) {
+
+  toast.innerText = message;
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
 }
